@@ -1,0 +1,11 @@
+[package]
+name = "lib_nopanic"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "lib_nopanic provides a panic-free dialect of Rust"
+homepage = "https://github.com/mspiegel/lib_nopanic"
+repository = "https://github.com/mspiegel/lib_nopanic"
+readme = "README.md"
+
+[dependencies]
