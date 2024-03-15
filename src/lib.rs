@@ -26,12 +26,12 @@ anxious_int_decl! {I64, i64}
 anxious_int_decl! {I128, i128}
 anxious_int_decl! {ISize, isize}
 
-anxious_int_impl! {I8, i8, anxious_i8}
-anxious_int_impl! {I16, i16, anxious_i16}
-anxious_int_impl! {I32, i32, anxious_i32}
-anxious_int_impl! {I64, i64, anxious_i64}
-anxious_int_impl! {I128, i128, anxious_i128}
-anxious_int_impl! {ISize, isize, anxious_isize}
+anxious_int_impl! {I8, i8, anxious_i8, INom8}
+anxious_int_impl! {I16, i16, anxious_i16, INom16}
+anxious_int_impl! {I32, i32, anxious_i32, INom32}
+anxious_int_impl! {I64, i64, anxious_i64, INom64}
+anxious_int_impl! {I128, i128, anxious_i128, INom128}
+anxious_int_impl! {ISize, isize, anxious_isize, INomSize}
 
 macro_rules! nominal_int_decl {
     ($SelfT:ident, $ActualT:ident) => {

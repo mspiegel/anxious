@@ -1,5 +1,5 @@
 macro_rules! anxious_int_impl {
-    ($SelfT:ident, $ActualT:ident, $module:ident) => {
+    ($SelfT:ident, $ActualT:ident, $module:ident, $NominalT:ident) => {
         pub use $module::*;
 
         mod $module {
@@ -23,6 +23,13 @@ macro_rules! anxious_int_impl {
                 pub const MAX: $SelfT = $SelfT(Ok($ActualT::MAX));
 
                 pub const MIN: $SelfT = $SelfT(Ok($ActualT::MIN));
+
+                pub const fn result(self) -> Result<$NominalT, Panic> {
+                    match self.0 {
+                        Ok(val) => Ok($NominalT(val)),
+                        Err(e) => Err(e),
+                    }
+                }
 
                 #[must_use = "this returns the result of the operation, \
                       without modifying the original"]
@@ -224,6 +231,12 @@ macro_rules! anxious_int_impl {
                     ($lhs:expr, $rhs:expr) => {
                         $lhs.structural_eq($rhs)
                     };
+                }
+
+                #[test]
+                fn test_result() {
+                    assert_eq!($SelfT::from(0).result(), Ok($NominalT::from(0)));
+                    assert_eq!($SelfT::from(Panic::ThisIsFine).result(), Err(Panic::ThisIsFine));
                 }
 
                 #[test]
