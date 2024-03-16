@@ -6,6 +6,7 @@ macro_rules! anxious_int_impl {
             use core::convert;
             use core::fmt;
             use core::ops;
+            use no_panic::no_panic;
 
             impl From<$ActualT> for $SelfT {
                 fn from(item: $ActualT) -> $SelfT {
@@ -168,6 +169,7 @@ macro_rules! anxious_int_impl {
             impl ops::Add<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn add(self, rhs: $SelfT) -> $SelfT {
                     self.checked_add(rhs)
                 }
@@ -176,6 +178,7 @@ macro_rules! anxious_int_impl {
             impl ops::Sub<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn sub(self, rhs: $SelfT) -> $SelfT {
                     self.checked_sub(rhs)
                 }
@@ -184,6 +187,7 @@ macro_rules! anxious_int_impl {
             impl ops::Mul<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn mul(self, rhs: $SelfT) -> $SelfT {
                     self.checked_mul(rhs)
                 }
@@ -192,6 +196,7 @@ macro_rules! anxious_int_impl {
             impl ops::Div<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn div(self, rhs: $SelfT) -> $SelfT {
                     self.checked_div(rhs)
                 }
@@ -200,6 +205,7 @@ macro_rules! anxious_int_impl {
             impl ops::Rem<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn rem(self, rhs: $SelfT) -> $SelfT {
                     self.checked_rem(rhs)
                 }

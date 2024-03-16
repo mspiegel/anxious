@@ -4,6 +4,7 @@ macro_rules! anxious_bitwise_int_impl {
             use crate::*;
             use core::fmt;
             use core::ops;
+            use no_panic::no_panic;
 
             impl From<$ActualT> for $SelfT {
                 fn from(item: $ActualT) -> $SelfT {
@@ -135,6 +136,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::Add<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn add(self, rhs: $SelfT) -> $SelfT {
                     self.wrapping_add(rhs)
                 }
@@ -143,6 +145,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::Sub<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn sub(self, rhs: $SelfT) -> $SelfT {
                     self.wrapping_sub(rhs)
                 }
@@ -151,6 +154,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::Mul<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn mul(self, rhs: $SelfT) -> $SelfT {
                     self.wrapping_mul(rhs)
                 }
@@ -159,6 +163,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::Div<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn div(self, rhs: $SelfT) -> $SelfT {
                     self.wrapping_div(rhs)
                 }
@@ -167,6 +172,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::Rem<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn rem(self, rhs: $SelfT) -> $SelfT {
                     self.wrapping_rem(rhs)
                 }
@@ -175,6 +181,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::BitAnd<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn bitand(self, rhs: $SelfT) -> $SelfT {
                     let inner = match (self.0, rhs.0) {
                         (Err(e), _) => Err(e),
@@ -188,6 +195,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::BitOr<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn bitor(self, rhs: $SelfT) -> $SelfT {
                     let inner = match (self.0, rhs.0) {
                         (Err(e), _) => Err(e),
@@ -201,6 +209,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::BitXor<$SelfT> for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn bitxor(self, rhs: $SelfT) -> $SelfT {
                     let inner = match (self.0, rhs.0) {
                         (Err(e), _) => Err(e),
@@ -214,6 +223,7 @@ macro_rules! anxious_bitwise_int_impl {
             impl ops::Not for $SelfT {
                 type Output = $SelfT;
 
+                #[no_panic]
                 fn not(self) -> $SelfT {
                     let inner = match self.0 {
                         Err(e) => Err(e),
