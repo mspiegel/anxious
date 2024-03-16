@@ -24,4 +24,4 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: mspiegel/lib_nopanic
+          slug: mspiegel/anxious

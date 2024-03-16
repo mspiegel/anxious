@@ -1,6 +1,6 @@
-# lib_nopanic
+# anxious
 
-![static analysis](https://github.com/mspiegel/lib_nopanic/actions/workflows/static-analysis.yaml/badge.svg) ![unit tests](https://github.com/mspiegel/lib_nopanic/actions/workflows/unit-tests.yaml/badge.svg) [![codecov](https://codecov.io/gh/mspiegel/lib_nopanic/graph/badge.svg?token=7H2EY41PIE)](https://codecov.io/gh/mspiegel/lib_nopanic)
+![static analysis](https://github.com/mspiegel/anxious/actions/workflows/static-analysis.yaml/badge.svg) ![unit tests](https://github.com/mspiegel/anxious/actions/workflows/unit-tests.yaml/badge.svg) [![codecov](https://codecov.io/gh/mspiegel/anxious/graph/badge.svg?token=7H2EY41PIE)](https://codecov.io/gh/mspiegel/anxious)
 
 #### Integer Operations
 
