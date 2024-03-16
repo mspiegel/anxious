@@ -1,7 +1,5 @@
 macro_rules! anxious_int_impl {
     ($SelfT:ident, $ActualT:ident, $module:ident, $NominalT:ident) => {
-        pub use $module::*;
-
         mod $module {
             use crate::*;
             use core::fmt;
@@ -211,6 +209,33 @@ macro_rules! anxious_int_impl {
                         Ok(val) => write!(f, "{:?}", val),
                         Err(err) => write!(f, "{:?}", err),
                     }
+                }
+            }
+
+            #[cfg(feature = "nightly")]
+            impl ops::Try for $SelfT {
+                type Output = $NominalT;
+                type Residual = Result<core::convert::Infallible, Panic>;
+
+                #[inline]
+                fn from_output(output: Self::Output) -> Self {
+                    $SelfT(Ok(output.0))
+                }
+
+                #[inline]
+                fn branch(self) -> core::ops::ControlFlow<Self::Residual, Self::Output> {
+                    match self.0 {
+                        Ok(v) => core::ops::ControlFlow::Continue($NominalT(v)),
+                        Err(e) => core::ops::ControlFlow::Break(Err(e)),
+                    }
+                }
+            }
+
+            #[cfg(feature = "nightly")]
+            impl ops::FromResidual for $SelfT {
+                #[inline]
+                fn from_residual(residual: Result<core::convert::Infallible, Panic>) -> Self {
+                    $SelfT::from(residual.unwrap_err())
                 }
             }
 
@@ -424,6 +449,30 @@ macro_rules! anxious_int_impl {
                     assert_eq!(format!("{:?}", $SelfT::from(1)), "1");
                     assert_eq!(format!("{:?}", $SelfT::from(Panic::ThisIsFine)), "ThisIsFine");
                 }
+
+                #[test]
+                #[cfg(feature = "nightly")]
+                fn test_try() {
+                    let result: $SelfT = core::ops::Try::from_output($NominalT::from(0));
+                    assert!(structural_eq!(result, $SelfT::from(0)));
+                    let result: $SelfT =
+                        core::ops::FromResidual::from_residual(Err(Panic::ThisIsFine));
+                    assert!(structural_eq!(result, $SelfT::from(Panic::ThisIsFine)));
+                }
+            }
+
+            #[test]
+            #[cfg(feature = "nightly")]
+            fn test_question_mark() {
+                let adder = |a: $SelfT, b: $SelfT| -> Result<bool, Panic> {
+                    let c: $NominalT = (a + b)?;
+                    Ok(c == $NominalT::from(3))
+                };
+                assert_eq!(adder($SelfT::from(1), $SelfT::from(2)), Ok(true));
+                assert_eq!(
+                    adder($SelfT::from(Panic::ThisIsFine), $SelfT::from(2)),
+                    Err(Panic::ThisIsFine)
+                );
             }
         }
     };

@@ -8,4 +8,8 @@ homepage = "https://github.com/mspiegel/lib_nopanic"
 repository = "https://github.com/mspiegel/lib_nopanic"
 readme = "README.md"
 
+[features]
+nightly = []
+
 [dependencies]
+

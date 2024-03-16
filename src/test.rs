@@ -15,13 +15,13 @@ macro_rules! anxious_test_binop {
 
         #[test]
         fn $int_func() {
-            let panics = std::panic::catch_unwind(||
-                for lhs in i8::MIN..=i8::MAX {
-                    for rhs in i8::MIN..=i8::MAX {
-                        _ = lhs $op rhs;
-                    }
+            let mut panics = false;
+            for lhs in i8::MIN..=i8::MAX {
+                for rhs in i8::MIN..=i8::MAX {
+                    panics |= std::panic::catch_unwind(||
+                        { _ = lhs $op rhs;}).is_err();
                 }
-            ).is_err();
+            }
             assert!(panics);
         }
     }
@@ -44,14 +44,15 @@ macro_rules! anxious_test_binfun {
 
         #[test]
         fn $int_func() {
-            let panics = std::panic::catch_unwind(|| {
-                for lhs in i8::MIN..=i8::MAX {
-                    for rhs in i8::MIN..=i8::MAX {
+            let mut panics = false;
+            for lhs in i8::MIN..=i8::MAX {
+                for rhs in i8::MIN..=i8::MAX {
+                    panics |= std::panic::catch_unwind(|| {
                         _ = lhs.$fun(rhs);
-                    }
+                    })
+                    .is_err();
                 }
-            })
-            .is_err();
+            }
             assert!(panics);
         }
     };
@@ -70,12 +71,13 @@ macro_rules! anxious_test_unaryfun {
 
         #[test]
         fn $int_func() {
-            let panics = std::panic::catch_unwind(|| {
-                for val in i8::MIN..=i8::MAX {
+            let mut panics = false;
+            for val in i8::MIN..=i8::MAX {
+                panics |= std::panic::catch_unwind(|| {
                     _ = val.$fun();
-                }
-            })
-            .is_err();
+                })
+                .is_err();
+            }
             assert!(panics);
         }
     };

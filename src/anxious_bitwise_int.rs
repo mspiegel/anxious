@@ -1,7 +1,5 @@
 macro_rules! anxious_bitwise_int_impl {
     ($SelfT:ident, $ActualT:ident, $module:ident) => {
-        pub use $module::*;
-
         mod $module {
             use crate::*;
             use core::fmt;

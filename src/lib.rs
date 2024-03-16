@@ -1,4 +1,5 @@
 #![cfg_attr(not(test), no_std)]
+#![cfg_attr(feature = "nightly", feature(try_trait_v2))]
 
 mod panic;
 #[macro_use]
