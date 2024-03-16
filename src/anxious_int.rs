@@ -2,6 +2,8 @@ macro_rules! anxious_int_impl {
     ($SelfT:ident, $ActualT:ident, $module:ident, $NominalT:ident) => {
         mod $module {
             use crate::*;
+            #[cfg(feature = "nightly")]
+            use core::convert;
             use core::fmt;
             use core::ops;
 
@@ -215,7 +217,7 @@ macro_rules! anxious_int_impl {
             #[cfg(feature = "nightly")]
             impl ops::Try for $SelfT {
                 type Output = $NominalT;
-                type Residual = Result<core::convert::Infallible, Panic>;
+                type Residual = Result<convert::Infallible, Panic>;
 
                 #[inline]
                 fn from_output(output: Self::Output) -> Self {
@@ -223,10 +225,10 @@ macro_rules! anxious_int_impl {
                 }
 
                 #[inline]
-                fn branch(self) -> core::ops::ControlFlow<Self::Residual, Self::Output> {
+                fn branch(self) -> ops::ControlFlow<Self::Residual, Self::Output> {
                     match self.0 {
-                        Ok(v) => core::ops::ControlFlow::Continue($NominalT(v)),
-                        Err(e) => core::ops::ControlFlow::Break(Err(e)),
+                        Ok(v) => ops::ControlFlow::Continue($NominalT(v)),
+                        Err(e) => ops::ControlFlow::Break(Err(e)),
                     }
                 }
             }
@@ -234,7 +236,7 @@ macro_rules! anxious_int_impl {
             #[cfg(feature = "nightly")]
             impl ops::FromResidual for $SelfT {
                 #[inline]
-                fn from_residual(residual: Result<core::convert::Infallible, Panic>) -> Self {
+                fn from_residual(residual: Result<convert::Infallible, Panic>) -> Self {
                     $SelfT::from(residual.unwrap_err())
                 }
             }
@@ -453,10 +455,9 @@ macro_rules! anxious_int_impl {
                 #[test]
                 #[cfg(feature = "nightly")]
                 fn test_try() {
-                    let result: $SelfT = core::ops::Try::from_output($NominalT::from(0));
+                    let result: $SelfT = ops::Try::from_output($NominalT::from(0));
                     assert!(structural_eq!(result, $SelfT::from(0)));
-                    let result: $SelfT =
-                        core::ops::FromResidual::from_residual(Err(Panic::ThisIsFine));
+                    let result: $SelfT = ops::FromResidual::from_residual(Err(Panic::ThisIsFine));
                     assert!(structural_eq!(result, $SelfT::from(Panic::ThisIsFine)));
                 }
             }
