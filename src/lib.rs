@@ -48,12 +48,12 @@ nominal_int_decl! {INom64, i64}
 nominal_int_decl! {INom128, i128}
 nominal_int_decl! {INomSize, isize}
 
-nominal_int_impl! {INom8, i8, nominal_i8}
-nominal_int_impl! {INom16, i16, nominal_i16}
-nominal_int_impl! {INom32, i32, nominal_i32}
-nominal_int_impl! {INom64, i64, nominal_i64}
-nominal_int_impl! {INom128, i128, nominal_i128}
-nominal_int_impl! {INomSize, isize, nominal_isize}
+nominal_int_impl! {INom8, i8, nominal_i8, I8}
+nominal_int_impl! {INom16, i16, nominal_i16, I16}
+nominal_int_impl! {INom32, i32, nominal_i32, I32}
+nominal_int_impl! {INom64, i64, nominal_i64, I64}
+nominal_int_impl! {INom128, i128, nominal_i128, I128}
+nominal_int_impl! {INomSize, isize, nominal_isize, ISize}
 
 anxious_int_decl! {IBit8, i8}
 anxious_int_decl! {IBit16, i16}

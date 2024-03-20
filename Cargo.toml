@@ -10,9 +10,3 @@ readme = "README.md"
 
 [features]
 nightly = []
-
-[dependencies]
-no-panic = "0.1"
-
-[profile.dev]
-opt-level = 1
